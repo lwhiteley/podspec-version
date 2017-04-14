@@ -66,7 +66,7 @@ if (options.help) {
     function runCommand(command, successMsg, failureMsg) {
         if (!options.dryRun) {
             const output = shell.exec(command, shellOpts);
-            output.code !== 0 && shell.echo(failureMsg);
+            output.code !== 0 && shell.echo(`\n${failureMsg}`);
             output.code !== 0 && shell.echo(`\n${output.stderr}\n`);
             output.code == 0 && console.log(successMsg);
         } else {
