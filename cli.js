@@ -66,11 +66,23 @@ if (options.help) {
     const defaultVersionType = 'patch';
     const versionEnum = ['path', 'minor', 'major'];
     let versionType = 'patch';
+    const shellOpts = {silent:true};
     if(includes(versionEnum, version)){
         versionType = version;
     }
     const dryRunTag = '[DRY RUN]';
     const stars = '************************************************';
+
+    function runCommand(command, successMsg, failureMsg) {
+        if (!options.dryRun) {
+            const output = shell.exec(command, shellOpts);
+            output.code !== 0 && shell.echo(failureMsg);
+            output.code !== 0 && shell.echo(`\n${output.stdout}\n`);
+            output.code == 0 && console.log(successMsg);
+        } else {
+            console.log(successMsg);
+        }
+    }
 
     function bump(podFilePath) {
         var bumper = new PodspecBumper(podFilePath);
@@ -91,24 +103,28 @@ if (options.help) {
         !options.dryRun && fs.writeFileSync(podFilePath, bumper.bumpVersion(version));
         console.log(`Bumped podspec version to ${newVersion}`);
 
+
         const commitCmd = `git add . && git commit -am "release ${newVersion}"`
-        if (!options.dryRun && shell.exec(commitCmd).code !== 0) {
-            shell.echo('Error: Git commit failed');
-        }
-        console.log(`Commited changes: ${commitCmd}`);
+        runCommand(commitCmd, 
+                    `Commited changes: ${commitCmd}`, 
+                    'Error: Git push failed');
 
+        /**
+         * Create tag
+         */
         const createTagCmd = `git tag -a ${newVersion} -m "release ${newVersion}"`
-        if (!options.dryRun && shell.exec(createTagCmd).code !== 0) {
-            shell.echo('Error: Git tag creation failed');
-        }
-        console.log(`Creating tag: ${createTagCmd}`);
+        runCommand(createTagCmd, 
+                    `Created tag: ${createTagCmd}`, 
+                    'Error: Git push failed');
 
+
+        /**
+         * Push all changes and tag
+         */
         const pushTagCmd = `git push --tags`
-        if (!options.dryRun && shell.exec(pushTagCmd).code !== 0) {
-            shell.echo('Error: Git push failed');
-        }
-        console.log(`Pushed all commits and tags: ${pushTagCmd}`);
-
+        const pushTagSuccessMsg = `Pushed all commits and tags: ${pushTagCmd}`
+        runCommand(pushTagCmd, pushTagSuccessMsg, 'Error: Git push failed');
+        
         if(options.dryRun){
             console.log(`\n${stars}\nDry Run Completed, no changes commited\n${stars}\n`)  
         }
