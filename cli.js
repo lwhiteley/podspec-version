@@ -60,15 +60,14 @@ if (options.help) {
         versionType = version;
     }
     options.dryRun = !options.write;
-    
-    const dryRunTag = '[DRY RUN]';
+
     const stars = '************************************************';
 
     function runCommand(command, successMsg, failureMsg) {
         if (!options.dryRun) {
             const output = shell.exec(command, shellOpts);
             output.code !== 0 && shell.echo(failureMsg);
-            output.code !== 0 && shell.echo(`\n${output.stdout}\n`);
+            output.code !== 0 && shell.echo(`\n${output.stderr}\n`);
             output.code == 0 && console.log(successMsg);
         } else {
             console.log(successMsg);
@@ -98,7 +97,7 @@ if (options.help) {
         const commitCmd = `git add . && git commit -am "release ${newVersion}"`
         runCommand(commitCmd, 
                     `Commited changes ==> ${commitCmd}`, 
-                    'Error: Git push failed');
+                    'Error: Git commit failed');
 
         /**
          * Create tag
@@ -106,7 +105,7 @@ if (options.help) {
         const createTagCmd = `git tag -a ${newVersion} -m "release ${newVersion}"`
         runCommand(createTagCmd, 
                     `Created tag ==> ${createTagCmd}`, 
-                    'Error: Git push failed');
+                    'Error: Git tagging failed');
 
 
         /**
