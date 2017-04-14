@@ -63,13 +63,15 @@ if (options.help) {
 
     const stars = '************************************************';
 
-    function runCommand(command, successMsg, failureMsg, progressMsg) {
+    function runCommand(command, successMsg, failureMsg, progressMsg, print) {
         console.log(`\n${progressMsg || ''}`)
         if (!options.dryRun) {
             const output = shell.exec(command, shellOpts);
             output.code !== 0 && shell.echo(`${failureMsg}`);
             output.code !== 0 && shell.echo(`${output.stderr}`);
+            output.code == 0 && print && shell.echo(`\n${output.stdout}\n`)
             output.code == 0 && console.log(successMsg);
+
         } else {
             console.log(successMsg);
         }
@@ -119,7 +121,8 @@ if (options.help) {
         runCommand(pushTagCmd, 
                     pushTagSuccessMsg, 
                     'ERROR: Git push failed',
-                    `Pushing all commits and tags ==> ${pushTagCmd}`);
+                    `Pushing all commits and tags ==> ${pushTagCmd}`, 
+                    true);
 
         console.log();
         
