@@ -24,14 +24,14 @@ const config = {
             alias: 'i',
             type: 'String',
             description: 'Incrementing "major", "minor", or "patch" version; or specify version [default: "patch"]',
-            example: 'podspec-bump -i minor'
+            example: 'podspec-version -i patch'
         },
         {
             option: 'write',
             alias: 'w',
             type: 'Boolean',
             description: 'dry run is done by default, add --write to commit changes',
-            example: 'podspec-bump --dump-version'
+            example: 'podspec-version --write'
         }
     ]
 };
@@ -118,7 +118,7 @@ if (options.help) {
         /**
          * Push all changes and tag
          */
-        const pushTagCmd = `git push --tags`;
+        const pushTagCmd = `git push --follow-tags`;
         runCommand(pushTagCmd, 
                     `DONE: Pushed all commits and tags`, 
                     'ERROR: Git push failed',
