@@ -1,11 +1,10 @@
 {
   "name": "podspec-version",
-  "version": "0.0.1",
+  "version": "0.0.25",
   "description": "automatically bump podspec version, create tag and push tag",
   "main": "index.js",
   "bin": "cli.js",
   "scripts": {
-    "preinstall": "npm i -g podspec-bump",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
