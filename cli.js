@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const PodspecBump = require("podspec-bump");
 const PodspecBumper = PodspecBump.PodspecBumper;
 const searcher = PodspecBump.podspecSearcher;
