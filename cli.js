@@ -97,24 +97,29 @@ if (options.help) {
 
         const commitCmd = `git add . && git commit -am "release ${newVersion}"`
         runCommand(commitCmd, 
-                    `Commited changes ==> ${commitCmd}`, 
-                    'Error: Git commit failed');
+                    `DONE: Commited changes`, 
+                    'ERROR: Git commit failed',
+                    `Committing all changes ==> ${commitCmd}`);
 
         /**
          * Create tag
          */
         const createTagCmd = `git tag -a ${newVersion} -m "release ${newVersion}"`
         runCommand(createTagCmd, 
-                    `Created tag ==> ${createTagCmd}`, 
-                    'Error: Git tagging failed');
+                    `DONE: Created tag `, 
+                    'ERROR: Git tagging failed',
+                    `Creating tag ==> ${createTagCmd}`);
 
 
         /**
          * Push all changes and tag
          */
         const pushTagCmd = `git push --tags`
-        const pushTagSuccessMsg = `Pushed all commits and tags ==> ${pushTagCmd}`
-        runCommand(pushTagCmd, pushTagSuccessMsg, 'Error: Git push failed');
+        const pushTagSuccessMsg = `Pushed all commits and tags`
+        runCommand(pushTagCmd, 
+                    pushTagSuccessMsg, 
+                    'ERROR: Git push failed',
+                    `Pushing all commits and tags ==> ${pushTagCmd}`);
 
         console.log();
         
