@@ -30,8 +30,15 @@ const config = {
             option: 'write',
             alias: 'w',
             type: 'Boolean',
-            description: 'dry run is done by default, add --write to commit changes',
+            description: 'dry run is done by default, add --write to commit changes [default: false]',
             example: 'podspec-version --write'
+        },
+        {
+            option: 'add',
+            alias: 'a',
+            type: 'Boolean',
+            description: 'add untracked files before committing [default: false]',
+            example: 'podspec-version --add'
         }
     ]
 };
@@ -96,10 +103,20 @@ if (options.help) {
         console.log(`\n${stars}\nCommence Modifications\n${stars}\n`) 
 
         !options.dryRun && fs.writeFileSync(podFilePath, bumper.bumpVersion(version));
-        console.log(`Bumped podspec version to ${newVersion}`);
-
-
-        const commitCmd = `git add . && git commit -am "release ${newVersion}"`
+        console
+        
+        if(options.add){
+            const addCmd = `git add .`
+            runCommand(addCmd, 
+                    `DONE: Add untracked and tracked changes completed`, 
+                    'ERROR: Git add failed',
+                    `Adding all changes ==> ${addCmd}`);
+        }
+        
+        /**
+         * Commit
+         */
+        const commitCmd = `git commit -am "release ${newVersion}"`
         runCommand(commitCmd, 
                     `DONE: Commited changes`, 
                     'ERROR: Git commit failed',
