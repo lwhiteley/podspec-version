@@ -124,9 +124,11 @@ if (options.help) {
         const pushTagCmd = `git push --tags`
         const pushTagSuccessMsg = `Pushed all commits and tags: ${pushTagCmd}`
         runCommand(pushTagCmd, pushTagSuccessMsg, 'Error: Git push failed');
+
+        console.log();
         
         if(options.dryRun){
-            console.log(`\n${stars}\nDry Run Completed, no changes commited\n${stars}\n`)  
+            console.log(`${stars}\nDry Run Completed, no changes commited\n${stars}\n`)  
         }
     }
 
