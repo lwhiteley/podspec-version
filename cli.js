@@ -116,7 +116,7 @@ if (options.help) {
         /**
          * Commit
          */
-        const commitCmd = `git commit -am "release ${newVersion}"`
+        const commitCmd = `git commit -am "chore: release ${newVersion}"`
         runCommand(commitCmd, 
                     `DONE: Commited changes`, 
                     'ERROR: Git commit failed',
@@ -125,7 +125,7 @@ if (options.help) {
         /**
          * Create tag
          */
-        const createTagCmd = `git tag -a ${newVersion} -m "release ${newVersion}"`
+        const createTagCmd = `git tag -a ${newVersion} -m "tag: release ${newVersion}"`
         runCommand(createTagCmd, 
                     `DONE: Created tag `, 
                     'ERROR: Git tagging failed',
