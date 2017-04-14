@@ -69,7 +69,7 @@ if (options.help) {
             const output = shell.exec(command, shellOpts);
             output.code !== 0 && shell.echo(`${failureMsg}`);
             output.code !== 0 && shell.echo(`${output.stderr}`);
-            output.code == 0 && print &&console.log(output) && shell.echo(`\n${output.stdout}\n`)
+            output.code == 0 && print && shell.echo(`\n${output.stdout}`) && shell.echo(`${output.stderr}\n`) 
             output.code == 0 && console.log(successMsg);
 
         } else {
