@@ -32,5 +32,7 @@ when you are comfortable just add `-w` to commit changes, tag release and push c
 For eg: We start with version `0.0.1`
 
 Patch Release: `podspec-version -w` => `0.0.2`
+
 Minor Release: `podspec-version -w minor` => `0.1.0`
+
 Major Release: `podspec-version -w major` => `1.0.0`
