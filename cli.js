@@ -115,7 +115,7 @@ if (options.help) {
          * Push all changes and tag
          */
         const pushTagCmd = `git push --tags`
-        const pushTagSuccessMsg = `Pushed all commits and tags`
+        const pushTagSuccessMsg = `DONE: Pushed all commits and tags`
         runCommand(pushTagCmd, 
                     pushTagSuccessMsg, 
                     'ERROR: Git push failed',
