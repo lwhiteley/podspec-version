@@ -5,22 +5,17 @@ const shell = require("shelljs");
 const semver = require("semver");
 const includes = require("lodash.includes");
 const fs = require('fs');
+const pkg = require("./package.json");
+
 const config = {
-    prepend: 'Usage: podspec-version <increment> [options]',
-    append: 'Version ' + require("./package.json").version,
+    prepend: `\n${pkg.name} (${pkg.version})\n\nUsage: podspec-version <increment> [options]`,
+    append: '\n',
     options: [
         {
             option: 'help',
             alias: 'h',
             type: 'Boolean',
             description: 'displays help'
-        },
-        {
-            option: 'write',
-            alias: 'w',
-            type: 'Boolean',
-            description: 'write incremented version',
-            example: 'podspec-bump -w major'
         },
         {
             option: 'increment',
@@ -30,16 +25,10 @@ const config = {
             example: 'podspec-bump -i minor'
         },
         {
-            option: 'path',
-            alias: 'p',
-            type: 'String',
-            description: 'path to podspec',
-            example: 'podspec-bump --path /path/to/example.podspec'
-        },
-        {
-            option: 'dry-run',
+            option: 'write',
+            alias: 'w',
             type: 'Boolean',
-            description: 'dump podspec version',
+            description: 'dry run is done by default, add --write to commit changes',
             example: 'podspec-bump --dump-version'
         }
     ]
@@ -70,6 +59,8 @@ if (options.help) {
     if(includes(versionEnum, version)){
         versionType = version;
     }
+    options.dryRun = !options.write;
+    
     const dryRunTag = '[DRY RUN]';
     const stars = '************************************************';
 
