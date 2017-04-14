@@ -106,7 +106,7 @@ if (options.help) {
 
         const commitCmd = `git add . && git commit -am "release ${newVersion}"`
         runCommand(commitCmd, 
-                    `Commited changes: ${commitCmd}`, 
+                    `Commited changes ==> ${commitCmd}`, 
                     'Error: Git push failed');
 
         /**
@@ -114,7 +114,7 @@ if (options.help) {
          */
         const createTagCmd = `git tag -a ${newVersion} -m "release ${newVersion}"`
         runCommand(createTagCmd, 
-                    `Created tag: ${createTagCmd}`, 
+                    `Created tag ==> ${createTagCmd}`, 
                     'Error: Git push failed');
 
 
@@ -122,7 +122,7 @@ if (options.help) {
          * Push all changes and tag
          */
         const pushTagCmd = `git push --tags`
-        const pushTagSuccessMsg = `Pushed all commits and tags: ${pushTagCmd}`
+        const pushTagSuccessMsg = `Pushed all commits and tags ==> ${pushTagCmd}`
         runCommand(pushTagCmd, pushTagSuccessMsg, 'Error: Git push failed');
 
         console.log();
