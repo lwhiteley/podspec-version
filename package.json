@@ -1,6 +1,6 @@
 {
   "name": "podspec-version",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "automatically bump podspec version, create tag and push tag",
   "main": "index.js",
   "bin": "cli.js",
