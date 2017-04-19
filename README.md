@@ -19,6 +19,7 @@ Usage: podspec-version <increment> [options]
   -h, --help              displays help
   -i, --increment String  Incrementing "major", "minor", or "patch" version; or specify version [default: "patch"]
   -w, --write             dry run is done by default, add --write to commit changes [default: false]
+  -y, --yes               answer yes to any possible questions [default: false]
   -a, --add               add untracked files before committing [default: false]
 ```
 
