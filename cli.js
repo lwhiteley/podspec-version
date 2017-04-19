@@ -35,6 +35,13 @@ const config = {
             example: 'podspec-version --write'
         },
         {
+            option: 'yes',
+            alias: 'y',
+            type: 'Boolean',
+            description: 'answer yes to any possible questions [default: false]',
+            example: 'podspec-version --yes'
+        },
+        {
             option: 'add',
             alias: 'a',
             type: 'Boolean',
@@ -153,6 +160,11 @@ if (options.help) {
 
         if(!options.dryRun){
             console.log(`\n\nThis module currently does not update readme files. `);
+
+            if(options.yes){
+                return runBump(bumper, newVersion, podFilePath);
+            }
+
             yesno.ask('\nAre you sure you made all changes before continuing? (YES|no)', true, function(ok) {
                 if(ok) {
                     runBump(bumper, newVersion, podFilePath);
@@ -164,7 +176,6 @@ if (options.help) {
             }, ['yes', 'y', 'ok'], ['no', 'n']);
         }
 
-        
     }
 
     if (options.path) {
