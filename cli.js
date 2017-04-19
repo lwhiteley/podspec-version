@@ -152,14 +152,16 @@ if (options.help) {
         console.log(`New Version: ${newVersion}`);
 
         if(!options.dryRun){
-            console.log(`This module currently does not update readme files. `);
-            yesno.ask('Are you sure you made all changes before continuing?', true, function(ok) {
+            console.log(`\n\nThis module currently does not update readme files. `);
+            yesno.ask('\nAre you sure you made all changes before continuing? (YES|no)', true, function(ok) {
                 if(ok) {
                     runBump(bumper, newVersion, podFilePath);
+                    
                 } else {
-                    console.log("Please make your updates and run the command again.");
+                    console.log("\n\nPlease make your updates and run the command again.\n");
                 }
-            });
+                return process.exit(0);
+            }, ['yes', 'y', 'ok'], ['no', 'n']);
         }
 
         
