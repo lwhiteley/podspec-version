@@ -8,6 +8,7 @@ const semver = require("semver");
 const includes = require("lodash.includes");
 const fs = require('fs');
 const pkg = require("./package.json");
+var yesno = require('yesno');
 
 const config = {
     prepend: `\n${pkg.name} (${pkg.version})\n\nUsage: podspec-version <increment> [options]`,
@@ -86,20 +87,7 @@ if (options.help) {
         }
     }
 
-    function bump(podFilePath) {
-        var bumper = new PodspecBumper(podFilePath);
-        const currentVersion = bumper.getVersion();
-       
-        if(options.dryRun){
-            console.log(`${stars}\nDry Run, changes will not be commited\n${stars}`)  
-        }
-
-        console.log(`\n${stars}\nSetup Information\n${stars}\n`) 
-        console.log(`Current Version: ${currentVersion}`);
-        console.log(`Version Bump Type: ${versionType.toUpperCase()}`);
-        const newVersion = semver.inc(currentVersion, versionType);
-        console.log(`New Version: ${newVersion}`);
-
+    const runBump = (bumper, newVersion) => {
         console.log(`\n${stars}\nCommence Modifications\n${stars}\n`) 
 
         !options.dryRun && fs.writeFileSync(podFilePath, bumper.bumpVersion(version));
@@ -147,6 +135,34 @@ if (options.help) {
         if(options.dryRun){
             console.log(`${stars}\nDry Run Completed, no changes commited\n${stars}\n`)  
         }
+    }
+
+    function bump(podFilePath) {
+        var bumper = new PodspecBumper(podFilePath);
+        const currentVersion = bumper.getVersion();
+       
+        if(options.dryRun){
+            console.log(`${stars}\nDry Run, changes will not be commited\n${stars}`)  
+        }
+
+        console.log(`\n${stars}\nSetup Information\n${stars}\n`) 
+        console.log(`Current Version: ${currentVersion}`);
+        console.log(`Version Bump Type: ${versionType.toUpperCase()}`);
+        const newVersion = semver.inc(currentVersion, versionType);
+        console.log(`New Version: ${newVersion}`);
+
+        if(!options.dryRun){
+            console.log(`This module currently does not update readme files. `);
+            yesno.ask('Are you sure you made all changes before continuing?', true, function(ok) {
+                if(ok) {
+                    runBump(bumper, newVersion);
+                } else {
+                    console.log("Please make your updates and run the command again.");
+                }
+            });
+        }
+
+        
     }
 
     if (options.path) {

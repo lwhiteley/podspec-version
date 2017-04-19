@@ -29,6 +29,7 @@
     "optionator": "^0.8.2",
     "podspec-bump": "^0.4.1",
     "semver": "^5.3.0",
-    "shelljs": "^0.7.7"
+    "shelljs": "^0.7.7",
+    "yesno": "0.0.1"
   }
 }
