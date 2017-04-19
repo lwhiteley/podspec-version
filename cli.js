@@ -87,7 +87,7 @@ if (options.help) {
         }
     }
 
-    const runBump = (bumper, newVersion) => {
+    const runBump = (bumper, newVersion, podFilePath) => {
         console.log(`\n${stars}\nCommence Modifications\n${stars}\n`) 
 
         !options.dryRun && fs.writeFileSync(podFilePath, bumper.bumpVersion(version));
@@ -155,7 +155,7 @@ if (options.help) {
             console.log(`This module currently does not update readme files. `);
             yesno.ask('Are you sure you made all changes before continuing?', true, function(ok) {
                 if(ok) {
-                    runBump(bumper, newVersion);
+                    runBump(bumper, newVersion, podFilePath);
                 } else {
                     console.log("Please make your updates and run the command again.");
                 }
